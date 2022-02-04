@@ -67,7 +67,7 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
 
     // called once by the factory at time of deployment
     /// #if_succeeds msg.sender == factory;
-    /// #if_succeeds old(token0) == 0 && old(token1) == 0;
+    /// #if_succeeds old(token0) == address(0) && old(token1) == address(0);
     function initialize(address _token0, address _token1) external {
         require(msg.sender == factory, 'UniswapV2: FORBIDDEN'); // sufficient check
         token0 = _token0;
@@ -142,6 +142,13 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
     /// #if_succeeds old(reserve0) / old(reserve1) == reserve0 / reserve1;
     /// #if_succeeds reserve0 == IERC20(token0).balanceOf(address(this));
     /// #if_succeeds reserve1 == IERC20(token1).balanceOf(address(this));
+    /// #if_succeeds balanceOf[address(this)] == 0;
+    /// #if_succeeds 
+    /// let amount0 := old(balanceOf[address(this)]).mul(old(balanceOf[address(this)])) / old(totalSupply) in
+    /// old(IERC20(token0).balanceOf(to)) + amount0 == IERC20(token0).balanceOf(to);
+    /// #if_succeeds 
+    /// let amount1 := old(balanceOf[address(this)]).mul(old(balanceOf[address(this)])) / old(totalSupply) in
+    /// old(IERC20(token1).balanceOf(to)) + amount1 == IERC20(token1).balanceOf(to);
     function burn(address to) external lock returns (uint amount0, uint amount1) {
         (uint112 _reserve0, uint112 _reserve1,) = getReserves(); // gas savings
         address _token0 = token0;                                // gas savings
