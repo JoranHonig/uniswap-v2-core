@@ -17,7 +17,7 @@ The following assumes the use of `node@>=10`.
 `yarn` 
 
 ## Compile Contracts
-
+ 
 `yarn compile`
 
 ## Run Tests
