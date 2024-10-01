@@ -11,7 +11,7 @@ The built contract artifacts can be browsed via [unpkg.com](https://unpkg.com/br
 
 The following assumes the use of `node@>=10`.
  
-## Install Dependencies
+## Install Dependencies 
  
 `yarn` 
 
